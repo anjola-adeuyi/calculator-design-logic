@@ -17,6 +17,13 @@ function reducer(
 ) {
   switch (type) {
     case ACTIONS.ADD_DIGIT:
+      if (state.overwrite) {
+        return {
+          ...state,
+          currentOperand: payload.digit,
+          overwrite: false,
+        };
+      }
       if (payload.digit === '0' && state.currentOperand === '0') return state;
       if (payload.digit === '.' && state.currentOperand.includes('.')) {
         return state;
@@ -65,6 +72,7 @@ function reducer(
       }
       return {
         ...state,
+        overwrite: true,
         currentOperand: evaluation(state),
         previousOperand: undefined,
         operation: undefined,
