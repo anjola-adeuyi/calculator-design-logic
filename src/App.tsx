@@ -4,9 +4,9 @@ import './App.css';
 function App() {
   return (
     <div className='calculator-grid'>
-      <div className='otput'>
-        <div className='previous-operand'></div>
-        <div className='current-operand'></div>
+      <div className='output'>
+        <div className='previous-operand'>123,234 *</div>
+        <div className='current-operand'>987,654</div>
       </div>
       <button className='span-two'>AC</button>
       <button>DEL</button>
