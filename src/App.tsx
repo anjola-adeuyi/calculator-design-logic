@@ -13,7 +13,7 @@ export const ACTIONS = {
 
 function reducer(
   state: any,
-  { type, payload }: { type: string; payload: any }
+  { type, payload }: { type: string; payload?: any }
 ) {
   switch (type) {
     case ACTIONS.ADD_DIGIT:
@@ -33,6 +33,8 @@ function reducer(
         previousOperand: state.currentOperand,
         currentOperand: '',
       };
+    case ACTIONS.CLEAR:
+      return {};
     default:
       return state;
   }
@@ -50,7 +52,12 @@ function App() {
         </div>
         <div className='current-operand'>{currentOperand}</div>
       </div>
-      <button className='span-two'>AC</button>
+      <button
+        className='span-two'
+        onClick={() => dispatch({ type: ACTIONS.CLEAR })}
+      >
+        AC
+      </button>
       <button>DEL</button>
       <OperationButton operation='÷' dispatch={dispatch} />
       <DigitButton digit='1' dispatch={dispatch} />
