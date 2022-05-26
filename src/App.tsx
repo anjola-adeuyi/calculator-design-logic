@@ -19,8 +19,17 @@ function reducer(
     case ACTIONS.ADD_DIGIT:
       return {
         ...state,
-        currentOperand: `${state.currentOperand || ''} ${payload.digit}`,
+        currentOperand: `${state.currentOperand || ''}${payload.digit}`,
       };
+    case ACTIONS.CHOOSE_OPERATION:
+      return {
+        ...state,
+        operation: payload.operation,
+        previousOperand: state.currentOperand,
+        currentOperand: '',
+      };
+    default:
+      return state;
   }
 }
 
