@@ -27,11 +27,25 @@ function reducer(
         currentOperand: `${state.currentOperand || ''}${payload.digit}`,
       };
     case ACTIONS.CHOOSE_OPERATION:
+      if (
+        state.previousOperand === undefined &&
+        state.currentOperand === undefined
+      ) {
+        return state;
+      }
+      if (state.previousOperand === undefined) {
+        return {
+          ...state,
+          operation: payload.operation,
+          previousOperand: state.currentOperand,
+          currentOperand: undefined,
+        };
+      }
       return {
         ...state,
         operation: payload.operation,
-        previousOperand: state.currentOperand,
-        currentOperand: '',
+        previousOperand: evaluation(state),
+        currentOperand: undefined,
       };
     case ACTIONS.CLEAR:
       return {};
@@ -40,9 +54,30 @@ function reducer(
   }
 }
 
+const evaluation = ({ currentOperand, previousOperand, operation }: any) => {
+  if (currentOperand === undefined || previousOperand === undefined) {
+    return undefined;
+  }
+
+  switch (operation) {
+    case '+':
+      return parseFloat(previousOperand) + parseFloat(currentOperand);
+    case '-':
+      return parseFloat(previousOperand) - parseFloat(currentOperand);
+    case '*':
+      return parseFloat(previousOperand) * parseFloat(currentOperand);
+    case '÷':
+      return parseFloat(previousOperand) / parseFloat(currentOperand);
+    default:
+      return undefined;
+  }
+};
+
 function App() {
   const [{ currentOperand, previousOperand, operation }, dispatch] =
     React.useReducer(reducer, {});
+
+  console.log(currentOperand, previousOperand, operation);
 
   return (
     <div className='calculator-grid'>
